@@ -13,7 +13,6 @@ function auth(req, res, next) {
   const secret = process.env.JWT_SECRET;
   try {
     const authorized = jwt.verify(authToken, secret);
-    console.log(authorized);
     res.locals.userDetails = { ...authorized };
     next();
   } catch (err) {
@@ -23,7 +22,6 @@ function auth(req, res, next) {
 }
 
 function admin(req, res, next) {
-  console.log("authfilter admin: ", res.locals.userDetails.role);
   if (res.locals.userDetails.role !== "ADMIN")
     return res.status(403).send("Not allowed");
   next();
