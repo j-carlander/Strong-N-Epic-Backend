@@ -13,7 +13,6 @@ function auth(req, res, next) {
   const secret = process.env.JWT_SECRET;
   try {
     const authorized = jwt.verify(authToken, secret);
-    console.log("Auth token: ", authorized);
     res.locals.userDetails = { ...authorized };
     next();
   } catch (err) {

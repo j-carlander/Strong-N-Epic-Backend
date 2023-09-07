@@ -24,6 +24,7 @@ auth.post("/login", async (req, res) => {
     const userDetails = {
       username: dbUser.username,
       role: dbUser.role,
+      bookedWorkouts: dbUser.bookedWorkouts,
     };
     const token = jwtUtil.generateToken(userDetails);
     const responseBody = {
@@ -49,7 +50,8 @@ auth.post("/register", async (req, res) => {
   if (dbUser) return res.status(400).json({ msg: "Username already in use" });
 
   const passwordHash = await bcrypt.hash(req.body.password, 10);
-  const user = {...req.body,
+  const user = {
+    ...req.body,
     password: passwordHash,
     role: "USER",
     bookedWorkouts: [],
