@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 function generateToken(payload) {
   const payloadOptions = {
-    issuer: "ToDo React TS",
+    issuer: "Strong'N'Epic React TS",
     subject: "send and receive access token",
     // expiresIn: "15m", // 15 minutes
   };
