@@ -49,10 +49,10 @@ auth.post("/register", async (req, res) => {
   if (dbUser) return res.status(400).json({ msg: "Username already in use" });
 
   const passwordHash = await bcrypt.hash(req.body.password, 10);
-  const user = {
-    username: req.body.username,
+  const user = {...req.body,
     password: passwordHash,
     role: "USER",
+    bookedWorkouts: [],
   };
 
   const registered = await registerUserInDb(user);
