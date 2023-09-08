@@ -22,19 +22,33 @@ router.get("/workout", async (req, res) => {
 });
 
 // Book a workout, update participants list
-router.put("/workout", async (req, res) => {
+router.patch("/workout/:action", async (req, res) => {
   try {
-    const result = await Promise.all([
-      fetchCollection("workout").updateOne(
-        { _id: new ObjectId(req.body.id) },
-        { $push: { participants: req.body.participant } } // $push one user might be a better choice
-      ),
-      fetchCollection("users").updateOne(
-        { username: req.body.participant },
-        { $push: { bookedWorkouts: req.body.id } } // $push one user might be a better choice
-      ),
-    ]);
-    res.status(200).json(result);
+    if (req.params.action === "BOOK") {
+      const result = await Promise.all([
+        fetchCollection("workout").updateOne(
+          { _id: new ObjectId(req.body.id) },
+          { $push: { participants: req.body.participant } } // $push one user might be a better choice
+        ),
+        fetchCollection("users").updateOne(
+          { username: req.body.participant },
+          { $push: { bookedWorkouts: req.body.id } } // $push one user might be a better choice
+        ),
+      ]);
+      res.status(200).json(result);
+    } else if (req.params.action === "CANCEL") {
+      const result = await Promise.all([
+        fetchCollection("workout").updateOne(
+          { _id: new ObjectId(req.body.id) },
+          { $pull: { participants: req.body.participant } } // $push one user might be a better choice
+        ),
+        fetchCollection("users").updateOne(
+          { username: req.body.participant },
+          { $pull: { bookedWorkouts: req.body.id } } // $push one user might be a better choice
+        ),
+      ]);
+      res.status(204).json(result);
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Something went wrong" });
