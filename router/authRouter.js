@@ -24,13 +24,13 @@ auth.post("/login", async (req, res) => {
     const userDetails = {
       username: dbUser.username,
       role: dbUser.role,
-      bookedWorkouts: dbUser.bookedWorkouts,
     };
     const token = jwtUtil.generateToken(userDetails);
     const responseBody = {
       jwt: token,
       username: dbUser.username,
       role: dbUser.role,
+      bookedWorkouts: dbUser.bookedWorkouts,
     };
     res.status(200).json(responseBody);
   } else {
