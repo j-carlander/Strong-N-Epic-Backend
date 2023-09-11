@@ -31,7 +31,6 @@ auth.post("/login", async (req, res) => {
       jwt: token,
       username: dbUser.username,
       role: dbUser.role,
-      bookedWorkouts: dbUser.bookedWorkouts,
     };
     res.status(200).json(responseBody);
   } else {
