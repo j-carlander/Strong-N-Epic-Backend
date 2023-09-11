@@ -21,11 +21,10 @@ auth.post("/login", async (req, res) => {
   );
 
   if (passwordMatch) {
-    // const userDetails = {
-    //   username: dbUser.username,
-    //   role: dbUser.role,
-    //   bookedWorkouts: dbUser.bookedWorkouts,
-    // };
+    const userDetails = {
+      username: dbUser.username,
+      role: dbUser.role,
+    };
     const token = jwtUtil.generateToken(userDetails);
     const responseBody = {
       jwt: token,
