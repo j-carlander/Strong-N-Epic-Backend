@@ -21,11 +21,11 @@ auth.post("/login", async (req, res) => {
   );
 
   if (passwordMatch) {
-    // const userDetails = {
-    //   username: dbUser.username,
-    //   role: dbUser.role,
-    //   bookedWorkouts: dbUser.bookedWorkouts,
-    // };
+    const userDetails = {
+      username: dbUser.username,
+      role: dbUser.role,
+      bookedWorkouts: dbUser.bookedWorkouts,
+    };
     const token = jwtUtil.generateToken(userDetails);
     const responseBody = {
       jwt: token,
@@ -42,14 +42,14 @@ auth.post("/login", async (req, res) => {
 // for user registration
 auth.post("/register", async (req, res) => {
   if (req.body.username == undefined || req.body.password == undefined) {
-    return res.status(400).send("Missing user details");
+    return res.status(449).send("Missing user details");
   }
 
   const dbUser = await fetchCollection("users")?.findOne({
     username: req.body.username,
   });
 
-  if (dbUser) return res.status(400).json({ msg: "Username already in use" });
+  if (dbUser) return res.status(409).json({ msg: "Username already in use" });
 
   const passwordHash = await bcrypt.hash(req.body.password, 10);
   const user = {
