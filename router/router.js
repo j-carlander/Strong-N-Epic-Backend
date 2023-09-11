@@ -60,7 +60,7 @@ router.patch("/workout/:action", async (req, res) => {
 router.use(authFilter.admin);
 
 router.post("/workout", async (req, res) => {
-  const workout = { ...req.body };
+  const workout = { ...req.body, _id: null };
 
   const workouts = [];
   const recursSoManyTimes = workout.recurring === "just_once" ? 1 : 10;
